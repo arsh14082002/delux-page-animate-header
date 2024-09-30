@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      @font-face {
+        font-family: 'YourFont';
+        /* src: url('./fonts/MBCorpoATitleCond-Regular-Web.ttf') format('truetype'); */
+        font-weight: bold;
+        font-style: normal;
+      }
+
+      body {
+        font-family: YourFont;
+      }
+
+      /* Ensure SVG is positioned correctly */
+      .svg-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 10;
+      }
+
+      /* Style for img containing SVG */
+      .svg-image {
+        width: 400px;
+        height: auto;
+      }
+
+      /* Additional styles to enhance layout */
+      .content {
+        position: relative; /* To hold absolute positioned elements */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="h-[200vh]">
+        <div class="h-[100vh] m-0 relative">
+          <video
+            id="myVideo"
+            autoplay
+            playsinline
+            muted
+            preload
+            class="w-full h-screen object-cover"
+          >
+            <source src="./assets/original.mp4" type="video/mp4" />
+          </video>
+
+          <div
+            class="svg-container w-screen bg-[url('https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover flex justify-center items-center"
+          >
+            <div class="svg-image-left">
+              <h3 class="text-right text-[50px] font-extrabold" style="font-weight: 800">DELUX</h3>
+              <p class="text-right text-[50px]">VELVET TOUCH ETERNA</p>
+              <img src="./assets/banner-image.png" class="w-[200px]" alt="" />
+            </div>
+            <div class="svg-image-right">
+              <img src="./assets/logo_v.svg" alt="V" class="svg-image object-cover w-[300px]" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-screen flex justify-center items-center" id="text-cont">
+        <h1 class="text-[100px] font-bold z-20 z-50">HERE TO GO</h1>
+      </div>
+    </div>
+
+    <div class="h-screen">
+      <h1 class="text-[100px] font-bold z-20">HERE TO GO 2</h1>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+      integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+      integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Video element
+      const video = document.getElementById('myVideo');
+
+      // Scale .svg-image-right to 70% of total scaling (scale: 28), then fade out the .svg-container
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: '.svg-container',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 2,
+            pin: true,
+            pinSpacing: false,
+          },
+        })
+        // Phase 1: Scale .svg-image-right up to 70% (scale: 28)
+        .fromTo(
+          '.svg-image-right',
+          { scale: 1, opacity: 1 },
+          {
+            scale: 40, // 70% of the total scale (scale: 40)
+            opacity: 1, // Keep opacity at 1 during this phase
+            duration: 3,
+            transformOrigin: 'center center',
+          },
+          0, // Start immediately
+        )
+        // Phase 2: Fade out the .svg-container
+        .to(
+          '.svg-container',
+          {
+            opacity: 0,
+            duration: 2,
+          },
+          '-=1', // Start fading out halfway through the scaling process for a smoother transition
+        );
+
+      // Animation for the left text
+      gsap.fromTo(
+        '.svg-image-left',
+        { y: 100 },
+        {
+          ease: 'power2.inOut',
+          scrollTrigger: {
+            trigger: '.svg-image-left',
+            start: 'top top',
+            end: 'bottom 50%',
+            scrub: true,
+          },
+        },
+      );
+
+      // Animation for the video element (pin the video during scroll)
+      gsap.fromTo(
+        'video',
+        { y: 0 },
+        {
+          scrollTrigger: {
+            trigger: 'video',
+            start: 'top top',
+            end: '+=100%', // Adjust for how long to scroll the video
+            scrub: 1,
+            pin: true,
+          },
+        },
+      );
+    </script>
+  </body>
+</html>

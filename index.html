@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delux Page</title>
+
+    <style>
+      .bg-image {
+        background-clip: text;
+      }
+
+      svg {
+        background: transparent;
+        stroke-width: 10px;
+        stroke: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="relative flex justify-center items-center h-screen w-full bg-image">
+        <img
+          src="./assets/V_logo.svg"
+          class="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] h-auto w-[300px] z-20"
+        />
+        <video src="./assets/original.mp4" class="absolute top-0 left-0 h-full w-full z-10"></video>
+      </div>
+    </header>
+  </body>
+</html>

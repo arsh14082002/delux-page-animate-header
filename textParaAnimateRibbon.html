@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GSAP Scroll Reveal Character by Character</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      .char {
+        opacity: 0; /* Start as invisible */
+        display: inline-block;
+        color: gray; /* Initial color */
+        transform: translateY(10px); /* Start the characters 10px below */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="h-screen w-full">Scroll Down</div>
+
+    <div class="h-screen w-full flex justify-center items-center">
+      <p id="text" class="text-[20px] text-center">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt quasi ipsum doloribus
+        reiciendis debitis quo nihil. Maiores laboriosam molestiae nihil! Sequi maiores explicabo
+        repellendus numquam laboriosam blanditiis perspiciatis, quaerat autem! Ipsa nemo aspernatur
+        amet praesentium consequatur vitae optio laborum temporibus maxime! Quos molestiae veritatis
+        voluptatum accusamus! Molestias, nobis eligendi delectus, eos ab qui quod quidem nostrum
+        iusto quibusdam eius ex omnis nam distinctio dolor recusandae odio illo sint. Ratione, vitae
+        a esse facere quis repudiandae sint nesciunt architecto numquam illum explicabo, obcaecati
+        et veritatis nobis dicta quia accusantium magnam nihil. Incidunt inventore facilis eaque
+        amet dolorum sunt cumque odio quidem?
+      </p>
+    </div>
+
+    <div class="h-screen w-full"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      const textElement = document.getElementById('text');
+
+      const characters = textElement.innerText.split('');
+      textElement.innerHTML = characters
+        .map((char) => `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`)
+        .join('');
+
+      const charElements = document.querySelectorAll('.char');
+
+      gsap.to(charElements, {
+        opacity: 1,
+        y: 0,
+        stagger: {
+          amount: 1, // Total stagger duration for all characters
+          from: 'start',
+          grid: 'auto',
+          ease: 'power1.out',
+        },
+        color: '#000',
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#text',
+          scrub: 1,
+          start: 'top 40%',
+          end: 'bottom top',
+          pin: true,
+          markers: false,
+          toggleActions: 'play none none none',
+        },
+      });
+    </script>
+  </body>
+</html>

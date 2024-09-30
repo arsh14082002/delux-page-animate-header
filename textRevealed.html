@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GSAP Scroll Reveal Character by Character</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      @font-face {
+        font-family: 'YourFont';
+        src: url('./fonts/MBCorpoATitleCond-Regular-Web.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+      }
+
+      body {
+        font-family: YourFont;
+      }
+
+      .char {
+        display: inline-block;
+        color: gray; /* Initial color */
+        transform: translateY(10px); /* Start the characters 10px below */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="h-screen w-full">Scroll Down</div>
+
+    <div class="h-screen w-full grid grid-cols-2">
+      <div>
+        <h2 id="text" class="text-[40px] leading-12 text-left">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </h2>
+      </div>
+
+      <div></div>
+    </div>
+
+    <div class="h-screen w-full"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+      // Register ScrollTrigger plugin
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Get the text element
+      const textElement = document.getElementById('text');
+
+      // Split the text into characters and wrap each character in a span
+      const characters = textElement.innerText.split('');
+      textElement.innerHTML = characters
+        .map((char) => `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`)
+        .join('');
+
+      // Get all the span elements (each character)
+      const charElements = document.querySelectorAll('.char');
+
+      // GSAP ScrollTrigger animation to reveal each character by scrolling
+      gsap.to(charElements, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.05,
+        color: '#000',
+        ease: 'power2.out',
+
+        scrollTrigger: {
+          trigger: '#text',
+          scrub: true,
+          pin: true,
+          start: 'top 30%',
+          end: 'bottom top',
+          markers: true,
+          toggleActions: 'play none none none',
+        },
+      });
+    </script>
+  </body>
+</html>
